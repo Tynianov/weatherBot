@@ -9,11 +9,16 @@ api_call_service = ApiCallService()
 def help(message):
     bot.reply_to(message, 'Hello! \n Send me your city to get weather forecast')
 
-@bot.message_handler(func=lambda msg: msg.text is not None)
-def get_weather_forecast(message):
+@bot.message_handler(commands=['current_weather'])
+def get_current_weather(message):
+    msg = bot.reply_to(message,"Ok!\nEnter your city please")
+    bot.register_next_step_handler(msg,process_city)
+
+def process_city(message):
     response = api_call_service.weather_by_city_name(message.text)
 
-    bot.reply_to(message,response)
+    bot.send_message(message.chat.id, response)
+
 
 while True:
     try:
