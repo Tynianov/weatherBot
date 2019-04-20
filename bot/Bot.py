@@ -31,5 +31,5 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://nameless-mesa-97442.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://my-weathaer-bot.herokuapp.com/' + TOKEN)
     return "!", 200
