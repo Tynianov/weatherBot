@@ -1,9 +1,13 @@
 from time import sleep
-import telebot
+from telebot import TeleBot
+from flask import Flask, request
+import os
 from ApiCallService import ApiCallService
 
-bot = telebot.TeleBot('896808497:AAH492edFi5DVVmciFHvAKJXqoGniQRyreY')
+TOKEN = '896808497:AAH492edFi5DVVmciFHvAKJXqoGniQRyreY'
+bot = TeleBot(TOKEN)
 api_call_service = ApiCallService()
+server = Flask(__name__)
 
 @bot.message_handler(commands=['help'])
 def help(message):
@@ -19,10 +23,13 @@ def process_city(message):
 
     bot.send_message(message.chat.id, response)
 
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
 
-while True:
-    try:
-        bot.polling()
-    except Exception:
-        sleep(15)
-
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://nameless-mesa-97442.herokuapp.com/' + TOKEN)
+    return "!", 200
