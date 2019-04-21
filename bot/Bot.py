@@ -4,7 +4,7 @@ from flask import Flask, request
 import os
 from ApiCallService import ApiCallService
 
-TOKEN = '896808497:AAH492edFi5DVVmciFHvAKJXqoGniQRyreY'
+TOKEN = 'SECRET'
 bot = TeleBot(TOKEN)
 api_call_service = ApiCallService()
 server = Flask(__name__)
@@ -19,9 +19,13 @@ def get_current_weather(message):
     bot.register_next_step_handler(msg,process_city)
 
 def process_city(message):
-    response = api_call_service.weather_by_city_name(message.text)
+    try:
+        response = api_call_service.weather_by_city_name(message.text)
+        bot.send_message(message.chat.id, response)
+    except Exception:
+        msg = bot.reply_to(message,'Sorry, your city is incorrect!\nTry again')
+        bot.register_next_step_handler(msg,process_city)
 
-    bot.send_message(message.chat.id, response)
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():

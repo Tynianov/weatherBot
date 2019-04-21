@@ -13,12 +13,12 @@ class ApiCallService:
 
     def weather_by_city_name(self,city):
 
-        try:
-            self.params['q'] = city
-            request = get('http://api.openweathermap.org/data/2.5/weather',params=self.params)
-            return self.format_output(request.json())
-        except exceptions.InvalidURL:
-            return 'Sorry, your city name is incorrect!'
+        # try:
+        self.params['q'] = city
+        request = get('http://api.openweathermap.org/data/2.5/weather',params=self.params)
+        return self.format_output(request.json())
+        # except Exception:
+        #     return 'Sorry, your city name is incorrect!'
 
     def format_output(self,json_response):
 
