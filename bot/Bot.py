@@ -1,5 +1,5 @@
 from time import sleep
-from telebot import TeleBot
+from telebot import TeleBot, types
 from flask import Flask, request
 import os
 from ApiCallService import ApiCallService
@@ -15,7 +15,7 @@ def help(message):
 
 @bot.message_handler(commands=['current_weather'])
 def get_current_weather(message):
-    msg = bot.reply_to(message,"Ok!\nEnter your city please")
+    msg = bot.reply_to(message,"Ok!\nEnter your city, please")
     bot.register_next_step_handler(msg,process_city)
 
 def process_city(message):
@@ -25,7 +25,6 @@ def process_city(message):
     except Exception:
         msg = bot.reply_to(message,'Sorry, your city is incorrect!\nTry again')
         bot.register_next_step_handler(msg,process_city)
-
 
 @server.route('/' + TOKEN, methods=['POST'])
 def getMessage():
