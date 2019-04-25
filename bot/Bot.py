@@ -4,7 +4,7 @@ from flask import Flask, request
 import os
 from ApiCallService import ApiCallService
 
-TOKEN = 'SECRET'
+TOKEN = '896808497:AAH492edFi5DVVmciFHvAKJXqoGniQRyreY'
 bot = TeleBot(TOKEN)
 api_call_service = ApiCallService()
 server = Flask(__name__)
